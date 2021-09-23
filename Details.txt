@@ -1,0 +1,125 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| employee           |
+| info               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| stdinfo            |
+| sys                |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> use info;
+Database changed
+mysql> create table details(id int,name varchar(10),dept varchar(15),yop int);
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> insert into details values(1,"Gokul","ECE",2020),(2,"Amudha","CSC",2021),(3,"Aruna","Aero",2019),(4,"Anu","Mech",2020);
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from details;
++------+--------+------+------+
+| id   | name   | dept | yop  |
++------+--------+------+------+
+|    1 | Gokul  | ECE  | 2020 |
+|    2 | Amudha | CSC  | 2021 |
+|    3 | Aruna  | Aero | 2019 |
+|    4 | Anu    | Mech | 2020 |
++------+--------+------+------+
+4 rows in set (0.00 sec)
+
+mysql> desc details;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | YES  |     | NULL    |       |
+| name  | varchar(10) | YES  |     | NULL    |       |
+| dept  | varchar(15) | YES  |     | NULL    |       |
+| yop   | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> Delete * from details where id=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from details where id=1' at line 1
+mysql> delete from employee where id=1;
+ERROR 1146 (42S02): Table 'info.employee' doesn't exist
+mysql> delete from details  where id=1;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from details;
++------+--------+------+------+
+| id   | name   | dept | yop  |
++------+--------+------+------+
+|    2 | Amudha | CSC  | 2021 |
+|    3 | Aruna  | Aero | 2019 |
+|    4 | Anu    | Mech | 2020 |
++------+--------+------+------+
+3 rows in set (0.00 sec)
+
+mysql> Rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from details;
++------+--------+------+------+
+| id   | name   | dept | yop  |
++------+--------+------+------+
+|    2 | Amudha | CSC  | 2021 |
+|    3 | Aruna  | Aero | 2019 |
+|    4 | Anu    | Mech | 2020 |
++------+--------+------+------+
+3 rows in set (0.00 sec)
+
+mysql> delete from details where id=2;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from details;
++------+-------+------+------+
+| id   | name  | dept | yop  |
++------+-------+------+------+
+|    3 | Aruna | Aero | 2019 |
+|    4 | Anu   | Mech | 2020 |
++------+-------+------+------+
+2 rows in set (0.00 sec)
+
+mysql> truncate details;
+Query OK, 0 rows affected (0.16 sec)
+
+mysql> select * from details;
+Empty set (0.00 sec)
+
+mysql> insert into details values(1,"Gokul","ECE",2020),(2,"Amudha","CSC",2021),(3,"Aruna","Aero",2019),(4,"Anu","Mech",2020);
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from details;
++------+--------+------+------+
+| id   | name   | dept | yop  |
++------+--------+------+------+
+|    1 | Gokul  | ECE  | 2020 |
+|    2 | Amudha | CSC  | 2021 |
+|    3 | Aruna  | Aero | 2019 |
+|    4 | Anu    | Mech | 2020 |
++------+--------+------+------+
+4 rows in set (0.00 sec)
+
+mysql> Drop details;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'details' at line 1
+mysql> DROP details;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'details' at line 1
+mysql> drop table details;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> select * from details;
+ERROR 1146 (42S02): Table 'info.details' doesn't exist
+mysql> insert into details values(1,"Gokul","ECE",2020),(2,"Amudha","CSC",2021),(3,"Aruna","Aero",2019),(4,"Anu","Mech",2020);
+ERROR 1146 (42S02): Table 'info.details' doesn't exist
+mysql> 
+

@@ -1,0 +1,212 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| employee           |
+| info               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| stdinfo            |
+| sys                |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> create database demo;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use demo;
+Database changed
+mysql> create table list(id int,name varchar(10),place varchar(15));
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> desc list;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | YES  |     | NULL    |       |
+| name  | varchar(10) | YES  |     | NULL    |       |
+| place | varchar(15) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into list values(1,"Saravana","Madurai"),(2,"Kumar","Theni"),(3,Priya","Salem");
+    "> "
+    -> insert into list values(1,"Saravana","Madurai"),(2,"Kumar","Theni"),(3,"Priya","Salem");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '","Salem");
+"
+insert into list values(1,"Saravana","Madurai"),(2,"Kumar","Theni"' at line 1
+mysql> insert into list values(1,"Saravana","Madurai"),(2,"Kumar","Theni"),(3,Priya","Salem");
+" insert into list values(1,"Saravana","Madurai"),(2,"Kumar","Theni"),(3,"Priya","Salem");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '","Salem");
+" insert into list values(1,"Saravana","Madurai"),(2,"Kumar","Theni"' at line 1
+mysql> select * FROM LIST;
+ERROR 1146 (42S02): Table 'demo.LIST' doesn't exist
+mysql> insert into list values(1,"Saravana","Madurai"),(2,"Kumar","Theni"),(3,"Priya","Salem");
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * FROM LIST;
+ERROR 1146 (42S02): Table 'demo.LIST' doesn't exist
+mysql> select * from list;
++------+----------+---------+
+| id   | name     | place   |
++------+----------+---------+
+|    1 | Saravana | Madurai |
+|    2 | Kumar    | Theni   |
+|    3 | Priya    | Salem   |
++------+----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from list;
++------+----------+---------+
+| id   | name     | place   |
++------+----------+---------+
+|    1 | Saravana | Madurai |
+|    2 | Kumar    | Theni   |
+|    3 | Priya    | Salem   |
++------+----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update list set name="Divya" where id=1;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> insert into list values(4,"Kavi","Namakkal");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> delete from list where id=2;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from list;
++------+-------+----------+
+| id   | name  | place    |
++------+-------+----------+
+|    1 | Divya | Madurai  |
+|    3 | Priya | Salem    |
+|    4 | Kavi  | Namakkal |
++------+-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from list;
++------+----------+---------+
+| id   | name     | place   |
++------+----------+---------+
+|    1 | Saravana | Madurai |
+|    2 | Kumar    | Theni   |
+|    3 | Priya    | Salem   |
++------+----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update list set name="Divya" where id=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> insert into list values(4,"Kavi","Namakkal");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> delete from list where id=2;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from list;
++------+-------+----------+
+| id   | name  | place    |
++------+-------+----------+
+|    1 | Divya | Madurai  |
+|    3 | Priya | Salem    |
+|    4 | Kavi  | Namakkal |
++------+-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from list;
++------+-------+----------+
+| id   | name  | place    |
++------+-------+----------+
+|    1 | Divya | Madurai  |
+|    3 | Priya | Salem    |
+|    4 | Kavi  | Namakkal |
++------+-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> savepoint initial;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into list values(5,"Dhoni","Mumbai");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> savepoint ins;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update list set name="Raina" where id=5;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> savepoint upd;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from list;
++------+-------+----------+
+| id   | name  | place    |
++------+-------+----------+
+|    1 | Divya | Madurai  |
+|    3 | Priya | Salem    |
+|    4 | Kavi  | Namakkal |
+|    5 | Raina | Mumbai   |
++------+-------+----------+
+4 rows in set (0.00 sec)
+
+mysql> delete from list where id=3;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint del;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from list;
++------+-------+----------+
+| id   | name  | place    |
++------+-------+----------+
+|    1 | Divya | Madurai  |
+|    4 | Kavi  | Namakkal |
+|    5 | Raina | Mumbai   |
++------+-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> Rollback to upd;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from list;
++------+-------+----------+
+| id   | name  | place    |
++------+-------+----------+
+|    1 | Divya | Madurai  |
+|    3 | Priya | Salem    |
+|    4 | Kavi  | Namakkal |
+|    5 | Raina | Mumbai   |
++------+-------+----------+
+4 rows in set (0.00 sec)
+
+mysql> 
+
+

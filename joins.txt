@@ -1,0 +1,135 @@
+ysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| demo               |
+| employee           |
+| info               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| stdinfo            |
+| sys                |
++--------------------+
+9 rows in set (0.00 sec)
+
+mysql> create database team;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use database;
+ERROR 1049 (42000): Unknown database 'database'
+mysql> use team;
+Database changed
+mysql> create table officers(id int,name varchar(10),dept varchar(20),location varchar(15));
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> desc officers;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| id       | int         | YES  |     | NULL    |       |
+| name     | varchar(10) | YES  |     | NULL    |       |
+| dept     | varchar(20) | YES  |     | NULL    |       |
+| location | varchar(15) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> insert into officers values(1,"Aishu","Marketing","Mumbai");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into officers values(2,"aruna","Marketing","Pune"),(3,"amudha","Sales"),(4,"Jayasri","Production","Athur");
+ERROR 1136 (21S01): Column count doesn't match value count at row 2
+mysql> insert into officers values(2,"aruna","Marketing","Pune"),(3,"amudha","Sales","Salem"),(4,"Jayasri","Production","Athur");
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from officers;
++------+---------+------------+----------+
+| id   | name    | dept       | location |
++------+---------+------------+----------+
+|    1 | Aishu   | Marketing  | Mumbai   |
+|    2 | aruna   | Marketing  | Pune     |
+|    3 | amudha  | Sales      | Salem    |
+|    4 | Jayasri | Production | Athur    |
++------+---------+------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> create table students(int id,name varchar(10),course varchar(15));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int id,name varchar(10),course varchar(15))' at line 1
+mysql> create table students(id int,name varchar(10),course varchar(15));
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> insert into students values(1,"Saravana","Java"),(2,"Kumar","AWS"),(3,"Abi","Python"),(4,"Dhinesh","SAP");
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from students;
++------+----------+--------+
+| id   | name     | course |
++------+----------+--------+
+|    1 | Saravana | Java   |
+|    2 | Kumar    | AWS    |
+|    3 | Abi      | Python |
+|    4 | Dhinesh  | SAP    |
++------+----------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select id,name,dept,location
+    -> from officers
+    -> inner join students
+    -> on officers.id=students.id;
+ERROR 1052 (23000): Column 'id' in field list is ambiguous
+mysql> select officers.name,dept,students.course
+    -> from officers
+    -> inner join students
+    -> on officers.id=students.id;
++---------+------------+--------+
+| name    | dept       | course |
++---------+------------+--------+
+| Aishu   | Marketing  | Java   |
+| aruna   | Marketing  | AWS    |
+| amudha  | Sales      | Python |
+| Jayasri | Production | SAP    |
++---------+------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select columns
+    -> from table1
+    -> left[outer]join table2
+    -> on table1.column=table2.column;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '[outer]join table2
+on table1.column=table2.column' at line 3
+mysql> SELECT columns  
+    -> FROM table1  
+    -> LEFT [OUTER] JOIN table2  
+    -> ON table1.column = table2.column;  
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '[OUTER] JOIN table2  
+ON table1.column = table2.column' at line 3
+mysql> select officers.name,dept,location,students.course
+    -> from officers
+    -> left join students
+    -> on officers.id=students.id;
++---------+------------+----------+--------+
+| name    | dept       | location | course |
++---------+------------+----------+--------+
+| Aishu   | Marketing  | Mumbai   | Java   |
+| aruna   | Marketing  | Pune     | AWS    |
+| amudha  | Sales      | Salem    | Python |
+| Jayasri | Production | Athur    | SAP    |
++---------+------------+----------+--------+
+4 rows in set (0.00 sec)
+mysql> select officers.name,dept,location,students.course,students.name
+    -> from officers
+    -> right join students
+    -> on officers.id=students.id;
++---------+------------+----------+--------+----------+
+| name    | dept       | location | course | name     |
++---------+------------+----------+--------+----------+
+| Aishu   | Marketing  | Mumbai   | Java   | Saravana |
+| aruna   | Marketing  | Pune     | AWS    | Kumar    |
+| amudha  | Sales      | Salem    | Python | Abi      |
+| Jayasri | Production | Athur    | SAP    | Dhinesh  |
++---------+------------+----------+--------+----------+
+4 rows in set (0.01 sec)
+
